@@ -11,7 +11,7 @@ function Home() {
             flex flex-col 
             md:flex-row min-h-screen w-full">
             <aside className={`
-                bg-gradient-to-b from-[#1e3a8a] to-[#1e40af] 
+                bg-linear-to-b from-[#1e3a8a] to-[#1e40af] 
                 text-white transition-all duration-300
                 flex flex-col
                 ${isOpen ? "md:w-64 w-full" : "md:w-20 w-full"}
@@ -44,8 +44,8 @@ function Home() {
                     ${isOpen ? "block" : "hidden md:flex items-center"}
                 `}>
                     <MenuLink to="." icon={<HomeIcon size={24}/>} label="Home" isOpen={isOpen}/>
-                    <MenuLink to="Predio" icon={<Building size={24}/>} label="Prédio" isOpen={isOpen}/>
-                    <MenuLink to="." icon={<LayoutGrid size={24}/>} label="Kitnets" isOpen={isOpen}/>
+                    <MenuLink to="." icon={<Building size={24}/>} label="Prédio" isOpen={isOpen}/>
+                    <MenuLink to="Kitnets" icon={<LayoutGrid size={24}/>} label="Kitnets" isOpen={isOpen}/>
                     <MenuLink to="." icon={<MoreHorizontal size={24}/>} label="Outros" isOpen={isOpen}/>
                 </nav>
             </aside>

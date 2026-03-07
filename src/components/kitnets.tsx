@@ -2,7 +2,7 @@ import { Dialog } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
 import { Separator } from "./ui/separator";
-import { Building, SquarePlus } from 'lucide-react';
+import { LayoutGrid, SquarePlus } from 'lucide-react';
 import { DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
@@ -71,10 +71,10 @@ function Predio() {
                 w-full h-[60px]">
                 
                 <div className="flex gap-1">
-                    <Building size={34}/>
+                    <LayoutGrid size={34}/>
                     <Label className="
                         text-xl">
-                        Prédio
+                        Kitnets
                     </Label>
                 </div>
 
