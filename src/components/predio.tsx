@@ -2,7 +2,7 @@ import { Dialog } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
 import { Separator } from "./ui/separator";
-import { SquarePlus } from 'lucide-react';
+import { Building, SquarePlus } from 'lucide-react';
 import { DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
@@ -65,7 +65,19 @@ function Predio() {
 
     return (
         <div className="min-h-screen min-w-full p-6">
-            <header className="flex w-full h-[60px]">
+            <header className="
+                flex items-center 
+                justify-between
+                w-full h-[60px]">
+                
+                <div className="flex gap-1">
+                    <Building size={34}/>
+                    <Label className="
+                        text-xl">
+                        Prédio
+                    </Label>
+                </div>
+
                 <div className="flex items-center">
                     <Dialog>
                         <DialogTrigger asChild>
