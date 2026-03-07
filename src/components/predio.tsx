@@ -6,33 +6,61 @@ import { SquarePlus } from 'lucide-react';
 import { DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+interface Morador {
+    id: number;
+    nome: string;
+    telefone: string;
+    numero_ap: string;
+}
 
 function Predio() {
 
-    const [moradores, setMoradores] = useState<
-        { id: number; nome: string; telefone: string; ap: string }[]
-        >([]);
+    const [moradores, setMoradores] = useState<Morador[]>([]);
 
     const [nome, setNome] = useState("");
     const [telefone, setTelefone] = useState("");
     const [ap, setAp] = useState("");
+    
+    useEffect(() => {
 
-    function adicionarMorador(e: React.FormEvent<HTMLFormElement>) {
+        async function buscarKitnets(){
+            try {
+                const resposta = await axios.get('http://localhost:3000/cardsKitnets');
+
+                setMoradores(resposta.data)
+            } catch (error) {
+                console.error("Erro ao buscar moradores: ", error);
+            }
+        }
+
+        buscarKitnets();
+    }, []);
+    
+    async function adicionarMorador(e: React.FormEvent) {
         e.preventDefault();
 
-        const novoMorador = {
-            id: Date.now(),
-            nome,
-            telefone,
-            ap,
-        };
+        try {
+            const resposta = await axios.post('http://localhost:3000/cardsKitnets', {
+                nome: nome,
+                numero_ap: ap,
+                telefone: telefone,
+            })
 
-        setMoradores((prev) => [...prev, novoMorador]);
+            const novoMoradorCriado = resposta.data;
 
-        setNome("");
-        setTelefone("");
-        setAp("");
+            setMoradores((prev) => [...prev, novoMoradorCriado]);
+
+            setNome("");
+            setTelefone("");
+            setAp("");
+
+        } catch (error) {
+            console.error("Erro ao adicionar morador: ", error);
+            alert("Erro ao salvar no banco de dados.");
+        }
     } 
 
     return (
@@ -105,29 +133,6 @@ function Predio() {
                 gap-6
                 place-items-center
                 pt-4">
-                
-                <Card className="w-full h-full">
-                    <CardHeader className="text-2xl font-bold">
-                        <div className="text-2xl font-bold">
-                            Carlos
-                        </div>
-
-                        <span className="
-                            text-sm font-medium 
-                            bg-muted px-2 py-1 
-                            rounded-md">
-                            Ap 101
-                        </span>
-                        <Separator/>
-                    </CardHeader>
-                    <CardContent className="flex flex-col gap-1">
-                        <p>Fone: 83 98855-5566</p>
-                        <p>Dia do Aluguel: 05</p>
-                    </CardContent>
-                    <CardFooter>
-                        <Button className="w-full cursor-pointer">Cobrar</Button>
-                    </CardFooter>
-                </Card>
 
                 {moradores.map((morador) => (
                     <Card key={morador.id} className="w-full">
@@ -140,7 +145,7 @@ function Predio() {
                                 text-sm font-medium 
                                 bg-muted px-2 py-1 
                                 rounded-md">
-                                Ap {morador.ap}
+                                Ap {morador.numero_ap}
                             </span>
                             <Separator/>
                         </CardHeader>

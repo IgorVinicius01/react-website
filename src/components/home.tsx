@@ -1,67 +1,75 @@
 import { Link, Outlet } from "react-router-dom";
+import { Building, HomeIcon, LayoutGrid, Menu, MoreHorizontal, X } from 'lucide-react'
+import { useState } from "react";
 
 function Home() {
+    const [isOpen, setIsOpen] = useState(false);
+    const toggleMenu = () => setIsOpen(!isOpen);
 
     return (
-        <div className="flex min-h-screen min-w-screen">
-            <div className="flex flex-col bg-gradient-to-b from-[#1e3a8a] to-[#1e40af] w-[250px] p-4">
-                <div className="flex w-full h-[50px] items-center justify-center pt-4">
-                    <h1 className="text-white font-bold text-3xl">
+        <div className="
+            flex flex-col 
+            md:flex-row min-h-screen w-full">
+            <aside className={`
+                bg-gradient-to-b from-[#1e3a8a] to-[#1e40af] 
+                text-white transition-all duration-300
+                flex flex-col
+                ${isOpen ? "md:w-64 w-full" : "md:w-20 w-full"}
+                sticky top-0 z-50 md:h-screen`
+            }>
+                <div className={`
+                    flex items-center p-4 
+                    ${isOpen ? "justify-between w-full" : "justify-center"}
+                `}>
+                    <h1 className={`
+                        font-bold text-xl transition-all duration-300
+                        ${!isOpen ? "hidden" : "block"}
+                    `}>
                         RD Alugueis
                     </h1>
+
+                    <button 
+                        onClick={toggleMenu}
+                        className="
+                        p-1 rounded-md 
+                        hover:bg-blue-500 transition-colors
+                        cursor-pointer"
+                    >
+                        {isOpen ? <X size={28}/> : <Menu size={28}/>}
+                    </button>
                 </div>
 
-                <div className="flex flex-col gap-1 w-full h-[500px] mt-12">
-                    <Link 
-                        className="
-                            flex w-full h-[45px] 
-                            items-center pl-4
-                            text-white text-lg 
-                            rounded-sm cursor-pointer 
-                            hover:bg-blue-500"
-                        to={"."}>
-                            Home
-                    </Link>
-                    <Link 
-                        className="
-                            flex w-full h-[45px] 
-                            items-center pl-4
-                            text-white text-lg 
-                            rounded-sm cursor-pointer 
-                            hover:bg-blue-500"
-                        to={"predio"}>
-                            Prédio
-                    </Link>
-                    <Link 
-                        className="
-                            flex w-full h-[45px] 
-                            items-center pl-4
-                            text-white text-lg 
-                            rounded-sm cursor-pointer 
-                            hover:bg-blue-500"
-                        to={"."}>
-                            Kitnets
-                    </Link>
-                    <Link 
-                        className="
-                            flex w-full h-[45px] 
-                            items-center pl-4
-                            text-white text-lg 
-                            rounded-sm cursor-pointer 
-                            hover:bg-blue-500"
-                        to={"."}>
-                            Outros
-                    </Link>
+                <nav className={`
+                    flex flex-col gap-2 p-2
+                    ${isOpen ? "block" : "hidden md:flex items-center"}
+                `}>
+                    <MenuLink to="." icon={<HomeIcon size={24}/>} label="Home" isOpen={isOpen}/>
+                    <MenuLink to="Predio" icon={<Building size={24}/>} label="Prédio" isOpen={isOpen}/>
+                    <MenuLink to="." icon={<LayoutGrid size={24}/>} label="Kitnets" isOpen={isOpen}/>
+                    <MenuLink to="." icon={<MoreHorizontal size={24}/>} label="Outros" isOpen={isOpen}/>
+                </nav>
+            </aside>
 
-                </div>
-
-            </div>
-
-            <div className="flex-1 bg-gray-100">
+            <main className="flex-1 bg-gray-">
                 <Outlet/>
-            </div>
+            </main>
         </div>
     )
+}
+
+function MenuLink({ to, icon, label, isOpen } : 
+    { to: string, icon: React.ReactNode, label: string, isOpen: boolean }) {
+    return (
+        <Link 
+            to={to}
+            className="flex items-center gap-4 p-3 rounded-md hover:bg-blue-500 transition-all whitespace-nowrap"
+        >
+            <div className="min-w-[24px] flex justify-center">{icon}</div>
+            <span className={`${!isOpen && "md:hidden"} transition-opacity`}>
+                {label}
+            </span>
+        </Link>
+    );
 }
 
 export default Home;

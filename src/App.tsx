@@ -3,7 +3,6 @@ import Login from "./components/login"
 import Home from "./components/home"
 import Predio from "./components/predio"
 
-
 function App() {
 
   return (
